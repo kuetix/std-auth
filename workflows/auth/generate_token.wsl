@@ -1,0 +1,30 @@
+workflow generate_token {
+  start: GenerateToken
+
+  state GenerateToken {
+    action services/auth/jwt.GenerateToken(
+      userID: $args.userID,
+      username: $args.username,
+      email: $args.email,
+      expiresInHours: $args.expiresInHours
+    ) as TokenResult
+    on success -> FormatResponse
+    on error -> Failed
+  }
+
+  state FormatResponse {
+    action services/common/response.Response(
+      value: $TokenResult.response,
+      statusCode: 200
+    ) as Response
+    end ok
+  }
+
+  state Failed {
+    action services/common/response.Response(
+      value: {error: $error.message},
+      statusCode: 500
+    ) as ErrorResponse
+    end fail
+  }
+}

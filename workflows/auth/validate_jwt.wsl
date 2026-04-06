@@ -1,0 +1,35 @@
+workflow validate_jwt {
+  start: ExtractToken
+
+  state ExtractToken {
+    action services/auth/jwt.ExtractTokenFromHeader(
+      authHeader: $args.authorization
+    ) as TokenResult
+    on success -> ValidateToken
+    on error -> Failed
+  }
+
+  state ValidateToken {
+    action services/auth/jwt.ValidateToken(
+      tokenString: $TokenResult.response.token
+    ) as UserInfo
+    on success -> FormatResponse
+    on error -> Failed
+  }
+
+  state FormatResponse {
+    action services/common/response.Response(
+      value: $UserInfo.response,
+      statusCode: 200
+    ) as Response
+    end ok
+  }
+
+  state Failed {
+    action services/common/response.Response(
+      value: {error: $error.message, authorized: false},
+      statusCode: 401
+    ) as ErrorResponse
+    end fail
+  }
+}

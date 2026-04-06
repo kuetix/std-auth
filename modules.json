@@ -1,0 +1,152 @@
+{
+  "api/auth/jwt": {
+    "info": {
+      "namespace": "api/auth",
+      "class": "jwt",
+      "label": "Jwt Module",
+      "description": "Handles jwt operations for api/auth service"
+    },
+    "methods": [
+      {
+        "value": "ExtractTokenFromHeader",
+        "label": "ExtractTokenFromHeader(authHeader)",
+        "description": "Function with 1 input(s) and 1 output(s)"
+      },
+      {
+        "value": "GenerateToken",
+        "label": "GenerateToken(userID, username, email, expiresInHours)",
+        "description": "Function with 4 input(s) and 1 output(s)"
+      },
+      {
+        "value": "GetToken",
+        "label": "GetToken(authHeader)",
+        "description": "Function with 1 input(s) and 1 output(s)"
+      },
+      {
+        "value": "GenerateToken",
+        "label": "GenerateToken(userID, username, email, expiresInHours)",
+        "description": "Function with 4 input(s) and 1 output(s)"
+      },
+      {
+        "value": "ValidateToken",
+        "label": "ValidateToken(tokenString)",
+        "description": "Function with 1 input(s) and 1 output(s)"
+      },
+      {
+        "value": "RefreshToken",
+        "label": "RefreshToken(tokenString, expiresInHours)",
+        "description": "Function with 2 input(s) and 1 output(s)"
+      },
+      {
+        "value": "ExtractTokenFromHeader",
+        "label": "ExtractTokenFromHeader(authHeader)",
+        "description": "Function with 1 input(s) and 1 output(s)"
+      },
+      {
+        "value": "GetToken",
+        "label": "GetToken(authHeader)",
+        "description": "Function with 1 input(s) and 1 output(s)"
+      },
+      {
+        "value": "RefreshToken",
+        "label": "RefreshToken(tokenString, expiresInHours)",
+        "description": "Function with 2 input(s) and 1 output(s)"
+      },
+      {
+        "value": "ValidateToken",
+        "label": "ValidateToken(tokenString)",
+        "description": "Function with 1 input(s) and 1 output(s)"
+      }
+    ]
+  },
+  "api/auth/user": {
+    "info": {
+      "namespace": "api/auth",
+      "class": "user",
+      "label": "User Module",
+      "description": "Handles user operations for api/auth service"
+    },
+    "methods": [
+      {
+        "value": "GetAllUsers",
+        "label": "GetAllUsers()",
+        "description": "Function with 0 input(s) and 1 output(s)"
+      },
+      {
+        "value": "GetUserByEmail",
+        "label": "GetUserByEmail(email)",
+        "description": "Function with 1 input(s) and 1 output(s)"
+      },
+      {
+        "value": "Login",
+        "label": "Login(login, password)",
+        "description": "Function with 2 input(s) and 1 output(s)"
+      },
+      {
+        "value": "LookupID",
+        "label": "LookupID(key, email)",
+        "description": "Function with 2 input(s) and 1 output(s)"
+      },
+      {
+        "value": "Register",
+        "label": "Register(email, password)",
+        "description": "Function with 2 input(s) and 1 output(s)"
+      },
+      {
+        "value": "UpdateIndex",
+        "label": "UpdateIndex(email, otherId)",
+        "description": "Function with 2 input(s) and 1 output(s)"
+      },
+      {
+        "value": "LookupID",
+        "label": "LookupID(key, email)",
+        "description": "Function with 2 input(s) and 1 output(s)"
+      },
+      {
+        "value": "Login",
+        "label": "Login(login, password)",
+        "description": "Function with 2 input(s) and 1 output(s)"
+      },
+      {
+        "value": "GetUserByEmail",
+        "label": "GetUserByEmail(email)",
+        "description": "Function with 1 input(s) and 1 output(s)"
+      },
+      {
+        "value": "GetAllUsers",
+        "label": "GetAllUsers()",
+        "description": "Function with 0 input(s) and 1 output(s)"
+      },
+      {
+        "value": "ResetPassword",
+        "label": "ResetPassword(email, newPassword, requestingUserEmail)",
+        "description": "Function with 3 input(s) and 1 output(s)"
+      },
+      {
+        "value": "RequestPasswordReset",
+        "label": "RequestPasswordReset(email)",
+        "description": "Function with 1 input(s) and 1 output(s)"
+      },
+      {
+        "value": "Register",
+        "label": "Register(email, password)",
+        "description": "Function with 2 input(s) and 1 output(s)"
+      },
+      {
+        "value": "RequestPasswordReset",
+        "label": "RequestPasswordReset(email)",
+        "description": "Function with 1 input(s) and 1 output(s)"
+      },
+      {
+        "value": "ResetPassword",
+        "label": "ResetPassword(email, newPassword, requestingUserEmail)",
+        "description": "Function with 3 input(s) and 1 output(s)"
+      },
+      {
+        "value": "UpdateIndex",
+        "label": "UpdateIndex(email, otherId)",
+        "description": "Function with 2 input(s) and 1 output(s)"
+      }
+    ]
+  }
+}

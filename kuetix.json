@@ -1,0 +1,17 @@
+{
+  "name": "http",
+  "version": "0.1.0",
+  "description": "Kuetix package with reusable workflows, features, and solutions",
+  "author": "",
+  "license": "MIT",
+  "workflows": [
+    "workflows/common/example.wsl"
+  ],
+  "features": [
+    "workflows/features/example_feature.wsl"
+  ],
+  "solutions": [
+    "workflows/solutions/example_solution.wsl"
+  ],
+  "dependencies": {}
+}

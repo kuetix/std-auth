@@ -1,0 +1,88 @@
+workflow register {
+  start: ValidateInput
+
+  state ValidateInput {
+    action services/common/assert.NotEmpty(
+      value: $args.email,
+      message: "Email is required"
+    ) as EmailCheck
+    on success -> ValidatePassword
+    on error -> ValidationFailed
+  }
+
+  state ValidatePassword {
+    action services/common/assert.NotEmpty(
+      value: $args.password,
+      message: "Password is required"
+    ) as PasswordCheck
+    on success -> RegisterUser
+    on error -> ValidationFailed
+  }
+
+  state RegisterUser {
+    action services/auth/user.Register(
+      email: $args.email,
+      password: $args.password
+    ) as UserResult
+    on success -> UpdateUserIndex
+    on error -> RegistrationFailed
+  }
+
+  state UpdateUserIndex {
+    action services/auth/user.UpdateIndex(
+      email: $args.email,
+      otherId: <<args.username ?? args.email>>
+    ) as UserIndexResult
+    on success -> GenerateToken
+    on error -> RegistrationFailed
+  }
+
+  state GenerateToken {
+    action services/auth/jwt.GenerateToken(
+      userID: $UserResult.response.userId,
+      username: $UserResult.response.email,
+      email: $UserResult.response.email,
+      expiresInHours: 720
+    ) as TokenResult
+    on success -> FormatResponse
+    on error -> Failed
+  }
+
+  state FormatResponse {
+    action services/common/response.Response(
+      value: {
+        token: $TokenResult.response.token,
+        expiresAt: $TokenResult.response.expiresAt,
+        userId: $UserResult.response.userId,
+        email: $UserResult.response.email,
+        message: "Registration successful"
+      },
+      statusCode: 201
+    ) as Response
+    end ok
+  }
+
+  state ValidationFailed {
+    action services/common/response.Response(
+      value: {error: $error.message},
+      statusCode: 400
+    ) as ErrorResponse
+    end fail
+  }
+
+  state RegistrationFailed {
+    action services/common/response.Response(
+      value: {error: $error.message},
+      statusCode: 409
+    ) as ErrorResponse
+    end fail
+  }
+
+  state Failed {
+    action services/common/response.Response(
+      value: {error: $error.message},
+      statusCode: 500
+    ) as ErrorResponse
+    end fail
+  }
+}

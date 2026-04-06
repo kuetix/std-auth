@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    volumes:
+      - ./workflows:/root/workflows
+      - ./runtime:/root/runtime
+    environment:
+      - ENV=development
