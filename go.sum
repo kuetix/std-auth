@@ -22,8 +22,6 @@ github.com/kr/text v0.2.0 h1:5Nx0Ya0ZqY2ygV366QzturHI13Jq95ApcVaJBhpS+AY=
 github.com/kr/text v0.2.0/go.mod h1:eLer722TekiGuMkidMxC/pM04lWEeraHUUmBw8l2grE=
 github.com/kuetix/container v0.1.0 h1:1xaYGcRRlNTKzWlSEE+LcKN/t3Y5YnzlTnXZeHqAkbc=
 github.com/kuetix/container v0.1.0/go.mod h1:5XTD3239VlsqjAyeGYTdFJeFcF3CPUZaUmbSfo6CPgg=
-github.com/kuetix/cryptor v0.1.0 h1:uOOjQFTd6bkkjao2tdsAjvqIqSyqRw/CldMFNT6pZHQ=
-github.com/kuetix/cryptor v0.1.0/go.mod h1:LNQ3sNt7z8z5aQs6U9grbsuxUxdYs9tUZGt+Ao1S3/I=
 github.com/kuetix/helpers v1.0.0 h1:QUP5ib3XG3PQiYAwo/9Ficre5hl400OILRKGZQwzKQc=
 github.com/kuetix/helpers v1.0.0/go.mod h1:Sp6hNpfyQk5/ceeYdcJihxT7czxmSZCTwOYCUYlZzlI=
 github.com/kuetix/logger v1.0.0 h1:1UiqbLKMLaM8P4gOM4M5Bq+iFn3biw9Fm1bUnNZ1vRw=
@@ -34,8 +32,6 @@ github.com/mitchellh/mapstructure v1.5.0 h1:jeMsZIYE/09sWLaz43PL7Gy6RuMjD2eJVyua
 github.com/mitchellh/mapstructure v1.5.0/go.mod h1:bFUtVrKA4DC2yAKiSyO/QUcy7e+RRV2QTWOzhPopBRo=
 github.com/pelletier/go-toml/v2 v2.2.4 h1:mye9XuhQ6gvn5h28+VilKrrPoQVanw5PMw/TB0t5Ec4=
 github.com/pelletier/go-toml/v2 v2.2.4/go.mod h1:2gIqNv+qfxSVS7cM2xJQKtLSTLUE9V8t9Stt+h56mCY=
-github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
-github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/pnkj-kmr/simple-json-db v1.3.0 h1:aVLxC2DgNkboKtSOGJaHvzCWlohooSNQ4M1gnG92oUI=

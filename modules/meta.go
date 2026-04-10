@@ -3,13 +3,31 @@ package modules
 
 import (
 	"github.com/kuetix/engine/boot"
-	"github.com/kuetix/engine/pkg/domain/interfaces"
+	"github.com/kuetix/engine/engine/domain/interfaces"
 )
 
 func init() {
 	boot.AddMetaFunctionCache(map[string]map[string]map[string]interfaces.FunctionMetadata{
 		"api/auth": {
 			"jwt": {
+				"GetToken": {
+					Name:        "GetToken",
+					NumIn:       1,
+					NumOut:      1,
+					ArgTypes:    []string{"string"},
+					ReturnTypes: []string{"domain.FlowStepResult"},
+					ArgNames:    []string{"authHeader"},
+					ReturnNames: []string{"r"},
+				},
+				"GenerateToken": {
+					Name:        "GenerateToken",
+					NumIn:       4,
+					NumOut:      1,
+					ArgTypes:    []string{"string", "string", "string", "int"},
+					ReturnTypes: []string{"domain.FlowStepResult"},
+					ArgNames:    []string{"userID", "username", "email", "expiresInHours"},
+					ReturnNames: []string{"r"},
+				},
 				"ValidateToken": {
 					Name:        "ValidateToken",
 					NumIn:       1,
@@ -37,35 +55,8 @@ func init() {
 					ArgNames:    []string{"authHeader"},
 					ReturnNames: []string{"r"},
 				},
-				"GetToken": {
-					Name:        "GetToken",
-					NumIn:       1,
-					NumOut:      1,
-					ArgTypes:    []string{"string"},
-					ReturnTypes: []string{"domain.FlowStepResult"},
-					ArgNames:    []string{"authHeader"},
-					ReturnNames: []string{"r"},
-				},
-				"GenerateToken": {
-					Name:        "GenerateToken",
-					NumIn:       4,
-					NumOut:      1,
-					ArgTypes:    []string{"string", "string", "string", "int"},
-					ReturnTypes: []string{"domain.FlowStepResult"},
-					ArgNames:    []string{"userID", "username", "email", "expiresInHours"},
-					ReturnNames: []string{"r"},
-				},
 			},
 			"user": {
-				"UpdateIndex": {
-					Name:        "UpdateIndex",
-					NumIn:       2,
-					NumOut:      1,
-					ArgTypes:    []string{"string", "string"},
-					ReturnTypes: []string{"domain.FlowStepResult"},
-					ArgNames:    []string{"email", "otherId"},
-					ReturnNames: []string{"r"},
-				},
 				"LookupID": {
 					Name:        "LookupID",
 					NumIn:       2,
@@ -73,6 +64,15 @@ func init() {
 					ArgTypes:    []string{"string", "string"},
 					ReturnTypes: []string{"domain.FlowStepResult"},
 					ArgNames:    []string{"key", "email"},
+					ReturnNames: []string{"r"},
+				},
+				"Login": {
+					Name:        "Login",
+					NumIn:       2,
+					NumOut:      1,
+					ArgTypes:    []string{"string", "string"},
+					ReturnTypes: []string{"domain.FlowStepResult"},
+					ArgNames:    []string{"login", "password"},
 					ReturnNames: []string{"r"},
 				},
 				"GetUserByEmail": {
@@ -93,6 +93,15 @@ func init() {
 					ArgNames:    []string{"email", "newPassword", "requestingUserEmail"},
 					ReturnNames: []string{"r"},
 				},
+				"RequestPasswordReset": {
+					Name:        "RequestPasswordReset",
+					NumIn:       1,
+					NumOut:      1,
+					ArgTypes:    []string{"string"},
+					ReturnTypes: []string{"domain.FlowStepResult"},
+					ArgNames:    []string{"email"},
+					ReturnNames: []string{"r"},
+				},
 				"Register": {
 					Name:        "Register",
 					NumIn:       2,
@@ -102,13 +111,13 @@ func init() {
 					ArgNames:    []string{"email", "password"},
 					ReturnNames: []string{"r"},
 				},
-				"Login": {
-					Name:        "Login",
+				"UpdateIndex": {
+					Name:        "UpdateIndex",
 					NumIn:       2,
 					NumOut:      1,
 					ArgTypes:    []string{"string", "string"},
 					ReturnTypes: []string{"domain.FlowStepResult"},
-					ArgNames:    []string{"login", "password"},
+					ArgNames:    []string{"email", "otherId"},
 					ReturnNames: []string{"r"},
 				},
 				"GetAllUsers": {
@@ -118,15 +127,6 @@ func init() {
 					ArgTypes:    []string{},
 					ReturnTypes: []string{"domain.FlowStepResult"},
 					ArgNames:    []string{},
-					ReturnNames: []string{"r"},
-				},
-				"RequestPasswordReset": {
-					Name:        "RequestPasswordReset",
-					NumIn:       1,
-					NumOut:      1,
-					ArgTypes:    []string{"string"},
-					ReturnTypes: []string{"domain.FlowStepResult"},
-					ArgNames:    []string{"email"},
 					ReturnNames: []string{"r"},
 				},
 			},

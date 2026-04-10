@@ -9,9 +9,8 @@ import (
 	stdCoreModules "github.com/kuetix/std-core/modules"
 
 	"github.com/kuetix/engine"
-	"github.com/kuetix/engine/boot"
+	"github.com/kuetix/engine/engine/domain"
 	engineModule "github.com/kuetix/engine/modules"
-	"github.com/kuetix/engine/pkg/domain"
 )
 
 var Version string
@@ -35,7 +34,7 @@ func main() {
 
 	verboseMode := *verbose || *vFlag
 
-	response := engine.RunWorkflow(&boot.Options{
+	response := engine.RunWorkflow("production", &domain.Options{
 		Version:       Version,
 		BuildTime:     BuildTime,
 		EngineName:    "auth-cli",
@@ -63,6 +62,4 @@ func main() {
 			fmt.Printf("Result: %v\n", res.Response)
 		}
 	}
-
-	engine.ShutdownEngine()
 }

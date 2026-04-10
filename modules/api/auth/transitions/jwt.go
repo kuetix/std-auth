@@ -6,9 +6,9 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/kuetix/engine/pkg/domain"
-	"github.com/kuetix/engine/pkg/domain/interfaces"
-	"github.com/kuetix/engine/pkg/workflow"
+	"github.com/kuetix/engine/engine/domain"
+	"github.com/kuetix/engine/engine/domain/interfaces"
+	"github.com/kuetix/engine/engine/workflow"
 )
 
 type jwtTransitions struct {
