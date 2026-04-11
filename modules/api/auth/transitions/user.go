@@ -60,9 +60,13 @@ type User struct {
 }
 
 // Index represents a user index for quick lookups by email (or other identifiers)
+// {"hash":"33da355f18d15c61b2cf6dc1d1ad806c","id":"33da355f18d15c61b2cf6dc1d1ad806c","index":"email","type":"string","value":"alishov@gmail.com"}
 type Index struct {
+	Hash      string `json:"hash"`
 	ID        string `json:"id"`
-	UserID    string `json:"userId"`
+	Index     string `json:"index"`
+	Value     string `json:"value"`
+	Type      string `json:"type"`
 	CreatedAt string `json:"createdAt"`
 	UpdatedAt string `json:"updatedAt"`
 }
@@ -168,7 +172,7 @@ func (u *userTransitions) Register(email, password string) (r domain.FlowStepRes
 	}
 
 	// Save a user to a database with email as a key for easy lookup
-	if err = db.Set(userID, user, "username"); err != nil {
+	if err = db.Set(userID, user, "email", "username"); err != nil {
 		r.Success = false
 		r.Error = fmt.Errorf("failed to save user: %w", err)
 		return
@@ -204,8 +208,11 @@ func (u *userTransitions) UpdateIndex(email, otherId string) (r domain.FlowStepR
 	otherIdHash := uuid.Id(otherId)
 
 	index := Index{
+		Hash:      emailHash,
 		ID:        emailHash,
-		UserID:    otherIdHash,
+		Value:     email,
+		Index:     "email",
+		Type:      "string",
 		CreatedAt: now,
 		UpdatedAt: now,
 	}
@@ -224,7 +231,7 @@ func (u *userTransitions) UpdateIndex(email, otherId string) (r domain.FlowStepR
 		err = idb.Get(userHash, &index)
 		if err == nil {
 			index.UpdatedAt = now
-			index.UserID = userHash
+			index.Value = userHash
 		}
 	}
 
@@ -238,7 +245,7 @@ func (u *userTransitions) UpdateIndex(email, otherId string) (r domain.FlowStepR
 	r.Success = true
 	r.Response = map[string]interface{}{
 		"id":        index.ID,
-		"userId":    index.UserID,
+		"value":     index.Value,
 		"createdAt": index.CreatedAt,
 		"updatedAt": index.UpdatedAt,
 		"message":   "Index updated successfully",
@@ -257,25 +264,46 @@ func (u *userTransitions) LookupID(key, email string) (r domain.FlowStepResult) 
 		return
 	}
 
-	idb := u.index
 	keyHash := uuid.Id(key)
 	emailHash := uuid.Id(email)
-	index := Index{}
-	if err = idb.Get(keyHash, &index); err != nil {
-		if err = idb.Get(emailHash, &index); err != nil {
+	indexes := map[string]Index{}
+	if err = db.Get(keyHash+".idx", &indexes); err != nil {
+		if err = db.Get(emailHash+".idx", &indexes); err != nil {
 			if !db.Exists(emailHash) {
 				r.Success = false
 				r.Error = fmt.Errorf("invalid email or password")
 				return
 			}
-			index.ID = emailHash
+			indexes[keyHash] = Index{
+				Hash:      keyHash,
+				ID:        emailHash,
+				Value:     email,
+				Index:     "email",
+				Type:      "string",
+				CreatedAt: time.Now().Format(time.RFC3339),
+				UpdatedAt: time.Now().Format(time.RFC3339),
+			}
+		}
+	}
+	index := Index{}
+	for k, v := range indexes {
+		if k == keyHash {
+			index = v
+			break
+		}
+		if k == emailHash {
+			index = v
+			break
 		}
 	}
 
 	r.Success = true
 	r.Response = map[string]interface{}{
+		"hash":      index.Hash,
 		"id":        index.ID,
-		"userId":    index.UserID,
+		"index":     index.Index,
+		"value":     index.Value,
+		"type":      index.Type,
 		"createdAt": index.CreatedAt,
 		"updatedAt": index.UpdatedAt,
 	}

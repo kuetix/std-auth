@@ -34,7 +34,7 @@ func main() {
 
 	verboseMode := *verbose || *vFlag
 
-	response := engine.RunWorkflow("production", &domain.Options{
+	response := engine.RunWorkflow("production ", &domain.Options{
 		Version:       Version,
 		BuildTime:     BuildTime,
 		EngineName:    "auth-cli",
