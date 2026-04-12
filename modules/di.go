@@ -5,17 +5,17 @@ import (
 	di "github.com/kuetix/container"
 	"github.com/kuetix/engine/engine/defines"
 	"github.com/kuetix/engine/engine/workflow"
-	transitionsApiAuth "github.com/kuetix/std-auth/modules/api/auth/transitions"
+	transitionsAuth "github.com/kuetix/std-auth/modules/auth/transitions"
 )
 
 func init() {
 	di.Boot()
-	di.DependencyInjection["api/auth"] = func(name string) {
-		di.ToResolve(defines.TransitionPrefix+"api/auth"+"/"+"jwt", func() interface{} {
-			return workflow.ServiceTransitionMapping{ServiceName: name, Name: "jwt", Impl: transitionsApiAuth.NewJWTTransitions()}
+	di.DependencyInjection["auth"] = func(name string) {
+		di.ToResolve(defines.TransitionPrefix+"auth"+"/"+"jwt", func() interface{} {
+			return workflow.ServiceTransitionMapping{ServiceName: name, Name: "jwt", Impl: transitionsAuth.NewJWTTransitions()}
 		})
-		di.ToResolve(defines.TransitionPrefix+"api/auth"+"/"+"user", func() interface{} {
-			return workflow.ServiceTransitionMapping{ServiceName: name, Name: "user", Impl: transitionsApiAuth.NewUserTransitions()}
+		di.ToResolve(defines.TransitionPrefix+"auth"+"/"+"password", func() interface{} {
+			return workflow.ServiceTransitionMapping{ServiceName: name, Name: "password", Impl: transitionsAuth.NewUserTransitions()}
 		})
 	}
 }

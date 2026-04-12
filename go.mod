@@ -3,7 +3,6 @@ module github.com/kuetix/std-auth
 go 1.26.1
 
 require (
-	github.com/anare/filejsondb v1.0.0
 	github.com/golang-jwt/jwt/v5 v5.3.1
 	github.com/kuetix/container v0.1.0
 	github.com/kuetix/engine v0.2.4
@@ -21,7 +20,6 @@ require (
 	github.com/kuetix/logger v1.0.0 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.4 // indirect
-	github.com/pnkj-kmr/simple-json-db v1.3.0 // indirect
 	github.com/sagikazarmark/locafero v0.12.0 // indirect
 	github.com/spf13/afero v1.15.0 // indirect
 	github.com/spf13/cast v1.10.0 // indirect

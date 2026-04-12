@@ -1,151 +1,539 @@
 {
-  "api/auth/jwt": {
+  "auth/jwt": {
     "info": {
-      "namespace": "api/auth",
+      "namespace": "auth",
       "class": "jwt",
       "label": "Jwt Module",
-      "description": "Handles jwt operations for api/auth service"
+      "description": "Handles jwt operations for auth service"
     },
     "methods": [
       {
         "value": "ExtractTokenFromHeader",
-        "label": "ExtractTokenFromHeader(authHeader)",
-        "description": "Function with 1 input(s) and 1 output(s)"
+        "label": "ExtractTokenFromHeader(authHeader string) (r domain.FlowStepResult)",
+        "names": "ExtractTokenFromHeader(authHeader) r",
+        "types": "ExtractTokenFromHeader(string) domain.FlowStepResult",
+        "description": "Function with 1 input(s) and 1 output(s)",
+        "method": {
+          "namespace": "auth",
+          "class": "jwt",
+          "name": "ExtractTokenFromHeader",
+          "receiver_type": "*jwtTransitions",
+          "num_in": 1,
+          "num_out": 1,
+          "arg_types": [
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "authHeader"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
       },
       {
         "value": "GenerateToken",
-        "label": "GenerateToken(userID, username, email, expiresInHours)",
-        "description": "Function with 4 input(s) and 1 output(s)"
+        "label": "GenerateToken(userID string, username string, email string, expiresInHours int) (r domain.FlowStepResult)",
+        "names": "GenerateToken(userID, username, email, expiresInHours) r",
+        "types": "GenerateToken(string, string, string, int) domain.FlowStepResult",
+        "description": "Function with 4 input(s) and 1 output(s)",
+        "method": {
+          "namespace": "auth",
+          "class": "jwt",
+          "name": "GenerateToken",
+          "receiver_type": "*jwtTransitions",
+          "num_in": 4,
+          "num_out": 1,
+          "arg_types": [
+            "string",
+            "string",
+            "string",
+            "int"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "userID",
+            "username",
+            "email",
+            "expiresInHours"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
       },
       {
         "value": "GetToken",
-        "label": "GetToken(authHeader)",
-        "description": "Function with 1 input(s) and 1 output(s)"
+        "label": "GetToken(authHeader string) (r domain.FlowStepResult)",
+        "names": "GetToken(authHeader) r",
+        "types": "GetToken(string) domain.FlowStepResult",
+        "description": "Function with 1 input(s) and 1 output(s)",
+        "method": {
+          "namespace": "auth",
+          "class": "jwt",
+          "name": "GetToken",
+          "receiver_type": "*jwtTransitions",
+          "num_in": 1,
+          "num_out": 1,
+          "arg_types": [
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "authHeader"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
       },
       {
         "value": "GenerateToken",
-        "label": "GenerateToken(userID, username, email, expiresInHours)",
-        "description": "Function with 4 input(s) and 1 output(s)"
+        "label": "GenerateToken(userID string, username string, email string, expiresInHours int) (r domain.FlowStepResult)",
+        "names": "GenerateToken(userID, username, email, expiresInHours) r",
+        "types": "GenerateToken(string, string, string, int) domain.FlowStepResult",
+        "description": "Function with 4 input(s) and 1 output(s)",
+        "method": {
+          "namespace": "auth",
+          "class": "jwt",
+          "name": "GenerateToken",
+          "receiver_type": "*jwtTransitions",
+          "num_in": 4,
+          "num_out": 1,
+          "arg_types": [
+            "string",
+            "string",
+            "string",
+            "int"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "userID",
+            "username",
+            "email",
+            "expiresInHours"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
       },
       {
         "value": "ValidateToken",
-        "label": "ValidateToken(tokenString)",
-        "description": "Function with 1 input(s) and 1 output(s)"
+        "label": "ValidateToken(tokenString string) (r domain.FlowStepResult)",
+        "names": "ValidateToken(tokenString) r",
+        "types": "ValidateToken(string) domain.FlowStepResult",
+        "description": "Function with 1 input(s) and 1 output(s)",
+        "method": {
+          "namespace": "auth",
+          "class": "jwt",
+          "name": "ValidateToken",
+          "receiver_type": "*jwtTransitions",
+          "num_in": 1,
+          "num_out": 1,
+          "arg_types": [
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "tokenString"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
       },
       {
         "value": "RefreshToken",
-        "label": "RefreshToken(tokenString, expiresInHours)",
-        "description": "Function with 2 input(s) and 1 output(s)"
+        "label": "RefreshToken(tokenString string, expiresInHours int) (r domain.FlowStepResult)",
+        "names": "RefreshToken(tokenString, expiresInHours) r",
+        "types": "RefreshToken(string, int) domain.FlowStepResult",
+        "description": "Function with 2 input(s) and 1 output(s)",
+        "method": {
+          "namespace": "auth",
+          "class": "jwt",
+          "name": "RefreshToken",
+          "receiver_type": "*jwtTransitions",
+          "num_in": 2,
+          "num_out": 1,
+          "arg_types": [
+            "string",
+            "int"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "tokenString",
+            "expiresInHours"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
       },
       {
         "value": "ExtractTokenFromHeader",
-        "label": "ExtractTokenFromHeader(authHeader)",
-        "description": "Function with 1 input(s) and 1 output(s)"
+        "label": "ExtractTokenFromHeader(authHeader string) (r domain.FlowStepResult)",
+        "names": "ExtractTokenFromHeader(authHeader) r",
+        "types": "ExtractTokenFromHeader(string) domain.FlowStepResult",
+        "description": "Function with 1 input(s) and 1 output(s)",
+        "method": {
+          "namespace": "auth",
+          "class": "jwt",
+          "name": "ExtractTokenFromHeader",
+          "receiver_type": "*jwtTransitions",
+          "num_in": 1,
+          "num_out": 1,
+          "arg_types": [
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "authHeader"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
       },
       {
         "value": "GetToken",
-        "label": "GetToken(authHeader)",
-        "description": "Function with 1 input(s) and 1 output(s)"
+        "label": "GetToken(authHeader string) (r domain.FlowStepResult)",
+        "names": "GetToken(authHeader) r",
+        "types": "GetToken(string) domain.FlowStepResult",
+        "description": "Function with 1 input(s) and 1 output(s)",
+        "method": {
+          "namespace": "auth",
+          "class": "jwt",
+          "name": "GetToken",
+          "receiver_type": "*jwtTransitions",
+          "num_in": 1,
+          "num_out": 1,
+          "arg_types": [
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "authHeader"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
       },
       {
         "value": "RefreshToken",
-        "label": "RefreshToken(tokenString, expiresInHours)",
-        "description": "Function with 2 input(s) and 1 output(s)"
+        "label": "RefreshToken(tokenString string, expiresInHours int) (r domain.FlowStepResult)",
+        "names": "RefreshToken(tokenString, expiresInHours) r",
+        "types": "RefreshToken(string, int) domain.FlowStepResult",
+        "description": "Function with 2 input(s) and 1 output(s)",
+        "method": {
+          "namespace": "auth",
+          "class": "jwt",
+          "name": "RefreshToken",
+          "receiver_type": "*jwtTransitions",
+          "num_in": 2,
+          "num_out": 1,
+          "arg_types": [
+            "string",
+            "int"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "tokenString",
+            "expiresInHours"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
       },
       {
         "value": "ValidateToken",
-        "label": "ValidateToken(tokenString)",
-        "description": "Function with 1 input(s) and 1 output(s)"
+        "label": "ValidateToken(tokenString string) (r domain.FlowStepResult)",
+        "names": "ValidateToken(tokenString) r",
+        "types": "ValidateToken(string) domain.FlowStepResult",
+        "description": "Function with 1 input(s) and 1 output(s)",
+        "method": {
+          "namespace": "auth",
+          "class": "jwt",
+          "name": "ValidateToken",
+          "receiver_type": "*jwtTransitions",
+          "num_in": 1,
+          "num_out": 1,
+          "arg_types": [
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "tokenString"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
       }
     ]
   },
-  "api/auth/user": {
+  "auth/password": {
     "info": {
-      "namespace": "api/auth",
-      "class": "user",
-      "label": "User Module",
-      "description": "Handles user operations for api/auth service"
+      "namespace": "auth",
+      "class": "password",
+      "label": "Password Module",
+      "description": "Handles password operations for auth service"
     },
     "methods": [
       {
-        "value": "GetAllUsers",
-        "label": "GetAllUsers()",
-        "description": "Function with 0 input(s) and 1 output(s)"
+        "value": "ComparePassword",
+        "label": "ComparePassword(password string, passwordHash string) (r domain.FlowStepResult)",
+        "names": "ComparePassword(password, passwordHash) r",
+        "types": "ComparePassword(string, string) domain.FlowStepResult",
+        "description": "Function with 2 input(s) and 1 output(s)",
+        "method": {
+          "namespace": "auth",
+          "class": "password",
+          "name": "ComparePassword",
+          "receiver_type": "*userTransitions",
+          "num_in": 2,
+          "num_out": 1,
+          "arg_types": [
+            "string",
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "password",
+            "passwordHash"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
       },
       {
-        "value": "GetUserByEmail",
-        "label": "GetUserByEmail(email)",
-        "description": "Function with 1 input(s) and 1 output(s)"
+        "value": "HashPassword",
+        "label": "HashPassword(password string, min int) (r domain.FlowStepResult)",
+        "names": "HashPassword(password, min) r",
+        "types": "HashPassword(string, int) domain.FlowStepResult",
+        "description": "Function with 2 input(s) and 1 output(s)",
+        "method": {
+          "namespace": "auth",
+          "class": "password",
+          "name": "HashPassword",
+          "receiver_type": "*userTransitions",
+          "num_in": 2,
+          "num_out": 1,
+          "arg_types": [
+            "string",
+            "int"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "password",
+            "min"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
       },
       {
-        "value": "Login",
-        "label": "Login(login, password)",
-        "description": "Function with 2 input(s) and 1 output(s)"
+        "value": "HashPassword",
+        "label": "HashPassword(password string, min int) (r domain.FlowStepResult)",
+        "names": "HashPassword(password, min) r",
+        "types": "HashPassword(string, int) domain.FlowStepResult",
+        "description": "Function with 2 input(s) and 1 output(s)",
+        "method": {
+          "namespace": "auth",
+          "class": "password",
+          "name": "HashPassword",
+          "receiver_type": "*userTransitions",
+          "num_in": 2,
+          "num_out": 1,
+          "arg_types": [
+            "string",
+            "int"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "password",
+            "min"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
       },
       {
-        "value": "LookupID",
-        "label": "LookupID(key, email)",
-        "description": "Function with 2 input(s) and 1 output(s)"
-      },
-      {
-        "value": "Register",
-        "label": "Register(email, password)",
-        "description": "Function with 2 input(s) and 1 output(s)"
-      },
-      {
-        "value": "UpdateIndex",
-        "label": "UpdateIndex(email, otherId)",
-        "description": "Function with 2 input(s) and 1 output(s)"
-      },
-      {
-        "value": "LookupID",
-        "label": "LookupID(key, email)",
-        "description": "Function with 2 input(s) and 1 output(s)"
-      },
-      {
-        "value": "Login",
-        "label": "Login(login, password)",
-        "description": "Function with 2 input(s) and 1 output(s)"
-      },
-      {
-        "value": "GetUserByEmail",
-        "label": "GetUserByEmail(email)",
-        "description": "Function with 1 input(s) and 1 output(s)"
-      },
-      {
-        "value": "GetAllUsers",
-        "label": "GetAllUsers()",
-        "description": "Function with 0 input(s) and 1 output(s)"
+        "value": "ComparePassword",
+        "label": "ComparePassword(password string, passwordHash string) (r domain.FlowStepResult)",
+        "names": "ComparePassword(password, passwordHash) r",
+        "types": "ComparePassword(string, string) domain.FlowStepResult",
+        "description": "Function with 2 input(s) and 1 output(s)",
+        "method": {
+          "namespace": "auth",
+          "class": "password",
+          "name": "ComparePassword",
+          "receiver_type": "*userTransitions",
+          "num_in": 2,
+          "num_out": 1,
+          "arg_types": [
+            "string",
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "password",
+            "passwordHash"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
       },
       {
         "value": "ResetPassword",
-        "label": "ResetPassword(email, newPassword, requestingUserEmail)",
-        "description": "Function with 3 input(s) and 1 output(s)"
+        "label": "ResetPassword(email string, newPassword string, requestingUserEmail string) (r domain.FlowStepResult)",
+        "names": "ResetPassword(email, newPassword, requestingUserEmail) r",
+        "types": "ResetPassword(string, string, string) domain.FlowStepResult",
+        "description": "Function with 3 input(s) and 1 output(s)",
+        "method": {
+          "namespace": "auth",
+          "class": "password",
+          "name": "ResetPassword",
+          "receiver_type": "*userTransitions",
+          "num_in": 3,
+          "num_out": 1,
+          "arg_types": [
+            "string",
+            "string",
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "email",
+            "newPassword",
+            "requestingUserEmail"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
       },
       {
         "value": "RequestPasswordReset",
-        "label": "RequestPasswordReset(email)",
-        "description": "Function with 1 input(s) and 1 output(s)"
-      },
-      {
-        "value": "Register",
-        "label": "Register(email, password)",
-        "description": "Function with 2 input(s) and 1 output(s)"
+        "label": "RequestPasswordReset(email string) (r domain.FlowStepResult)",
+        "names": "RequestPasswordReset(email) r",
+        "types": "RequestPasswordReset(string) domain.FlowStepResult",
+        "description": "Function with 1 input(s) and 1 output(s)",
+        "method": {
+          "namespace": "auth",
+          "class": "password",
+          "name": "RequestPasswordReset",
+          "receiver_type": "*userTransitions",
+          "num_in": 1,
+          "num_out": 1,
+          "arg_types": [
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "email"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
       },
       {
         "value": "RequestPasswordReset",
-        "label": "RequestPasswordReset(email)",
-        "description": "Function with 1 input(s) and 1 output(s)"
+        "label": "RequestPasswordReset(email string) (r domain.FlowStepResult)",
+        "names": "RequestPasswordReset(email) r",
+        "types": "RequestPasswordReset(string) domain.FlowStepResult",
+        "description": "Function with 1 input(s) and 1 output(s)",
+        "method": {
+          "namespace": "auth",
+          "class": "password",
+          "name": "RequestPasswordReset",
+          "receiver_type": "*userTransitions",
+          "num_in": 1,
+          "num_out": 1,
+          "arg_types": [
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "email"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
       },
       {
         "value": "ResetPassword",
-        "label": "ResetPassword(email, newPassword, requestingUserEmail)",
-        "description": "Function with 3 input(s) and 1 output(s)"
-      },
-      {
-        "value": "UpdateIndex",
-        "label": "UpdateIndex(email, otherId)",
-        "description": "Function with 2 input(s) and 1 output(s)"
+        "label": "ResetPassword(email string, newPassword string, requestingUserEmail string) (r domain.FlowStepResult)",
+        "names": "ResetPassword(email, newPassword, requestingUserEmail) r",
+        "types": "ResetPassword(string, string, string) domain.FlowStepResult",
+        "description": "Function with 3 input(s) and 1 output(s)",
+        "method": {
+          "namespace": "auth",
+          "class": "password",
+          "name": "ResetPassword",
+          "receiver_type": "*userTransitions",
+          "num_in": 3,
+          "num_out": 1,
+          "arg_types": [
+            "string",
+            "string",
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "email",
+            "newPassword",
+            "requestingUserEmail"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
       }
     ]
   }

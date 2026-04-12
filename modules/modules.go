@@ -1,7 +1,7 @@
 package modules
 
 import (
-	_ "github.com/kuetix/std-auth/modules/api/auth/transitions"
+	_ "github.com/kuetix/std-auth/modules/auth/transitions"
 
 	di "github.com/kuetix/container"
 	StdCoreModule "github.com/kuetix/std-core/modules"
