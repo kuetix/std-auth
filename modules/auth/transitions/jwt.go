@@ -118,6 +118,15 @@ func (j *jwtTransitions) GenerateToken(userID, username, email string, expiresIn
 
 // ValidateToken validates a JWT token and returns the claims
 func (j *jwtTransitions) ValidateToken(tokenString string) (r domain.FlowStepResult) {
+	return validateJWT(tokenString)
+}
+
+// validateJWT is ValidateToken's actual body, pulled out to a free
+// function so bff.go's ResolveSession (a Bearer-token fallback for a
+// mobile client, or a browser session not yet migrated to opaque BFF
+// sessions - see its doc comment) can reuse the exact same parsing/claims
+// logic without going through the jwtTransitions receiver.
+func validateJWT(tokenString string) (r domain.FlowStepResult) {
 	if tokenString == "" {
 		r.Success = false
 		r.Error = fmt.Errorf("token is required")
@@ -196,6 +205,11 @@ func (j *jwtTransitions) RefreshToken(tokenString string, expiresInHours int) (r
 	return j.GenerateToken(userID, username, email, expiresInHours)
 }
 
+// bearerPrefix is also used by bff.go's ResolveSession, which needs the
+// exact same "Bearer <token>" stripping before falling back to an opaque
+// session cookie.
+const bearerPrefix = "Bearer "
+
 // ExtractTokenFromHeader extracts the JWT token from Authorization header
 func (j *jwtTransitions) ExtractTokenFromHeader(authHeader string) (r domain.FlowStepResult) {
 	if authHeader == "" {
@@ -205,7 +219,6 @@ func (j *jwtTransitions) ExtractTokenFromHeader(authHeader string) (r domain.Flo
 	}
 
 	// Expected format: "Bearer <token>"
-	const bearerPrefix = "Bearer "
 	if len(authHeader) < len(bearerPrefix) {
 		r.Success = false
 		r.Error = fmt.Errorf("invalid authorization header format")

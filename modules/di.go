@@ -11,11 +11,9 @@ import (
 func init() {
 	di.Boot()
 	di.DependencyInjection["auth"] = func(name string) {
-		di.ToResolve(defines.TransitionPrefix+"auth"+"/"+"jwt", func() interface{} {
-			return workflow.ServiceTransitionMapping{ServiceName: name, Name: "jwt", Impl: transitionsAuth.NewJWTTransitions()}
-		})
-		di.ToResolve(defines.TransitionPrefix+"auth"+"/"+"password", func() interface{} {
-			return workflow.ServiceTransitionMapping{ServiceName: name, Name: "password", Impl: transitionsAuth.NewUserTransitions()}
-		})
+		di.ToResolve(defines.TransitionPrefix+"auth"+"/"+"bff", func() interface{} { return workflow.ServiceTransitionMapping{ ServiceName: name, Name: "bff", Impl: transitionsAuth.NewBFFTransitions() }})
+		di.ToResolve(defines.TransitionPrefix+"auth"+"/"+"jwt", func() interface{} { return workflow.ServiceTransitionMapping{ ServiceName: name, Name: "jwt", Impl: transitionsAuth.NewJWTTransitions() }})
+		di.ToResolve(defines.TransitionPrefix+"auth"+"/"+"mfa", func() interface{} { return workflow.ServiceTransitionMapping{ ServiceName: name, Name: "mfa", Impl: transitionsAuth.NewMFATransitions() }})
+		di.ToResolve(defines.TransitionPrefix+"auth"+"/"+"password", func() interface{} { return workflow.ServiceTransitionMapping{ ServiceName: name, Name: "password", Impl: transitionsAuth.NewUserTransitions() }})
 	}
 }

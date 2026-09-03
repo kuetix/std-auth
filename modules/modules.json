@@ -1,4 +1,275 @@
 {
+  "auth/bff": {
+    "info": {
+      "go_module": "github.com/kuetix/std-auth",
+      "namespace": "auth",
+      "class": "bff",
+      "label": "Bff Module",
+      "description": "Handles bff operations for auth service"
+    },
+    "methods": [
+      {
+        "value": "ClearSession",
+        "label": "ClearSession(response interface{}, cookieHeader string) (r domain.FlowStepResult)",
+        "names": "ClearSession(response, cookieHeader) r",
+        "types": "ClearSession(interface{}, string) domain.FlowStepResult",
+        "description": "Function with 2 input(s) and 1 output(s)",
+        "method": {
+          "go_module": "github.com/kuetix/std-auth",
+          "file_path": "modules/auth/transitions/bff.go",
+          "module_path": "modules",
+          "namespace": "auth",
+          "class": "bff",
+          "name": "ClearSession",
+          "receiver_type": "*bffTransitions",
+          "num_in": 2,
+          "num_out": 1,
+          "arg_types": [
+            "interface{}",
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "response",
+            "cookieHeader"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
+      },
+      {
+        "value": "CreateSession",
+        "label": "CreateSession(response interface{}, tokenResult interface{}, maxAgeSeconds int) (r domain.FlowStepResult)",
+        "names": "CreateSession(response, tokenResult, maxAgeSeconds) r",
+        "types": "CreateSession(interface{}, interface{}, int) domain.FlowStepResult",
+        "description": "Function with 3 input(s) and 1 output(s)",
+        "method": {
+          "go_module": "github.com/kuetix/std-auth",
+          "file_path": "modules/auth/transitions/bff.go",
+          "module_path": "modules",
+          "namespace": "auth",
+          "class": "bff",
+          "name": "CreateSession",
+          "receiver_type": "*bffTransitions",
+          "num_in": 3,
+          "num_out": 1,
+          "arg_types": [
+            "interface{}",
+            "interface{}",
+            "int"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "response",
+            "tokenResult",
+            "maxAgeSeconds"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
+      },
+      {
+        "value": "CreateSession",
+        "label": "CreateSession(response interface{}, tokenResult interface{}, maxAgeSeconds int) (r domain.FlowStepResult)",
+        "names": "CreateSession(response, tokenResult, maxAgeSeconds) r",
+        "types": "CreateSession(interface{}, interface{}, int) domain.FlowStepResult",
+        "description": "Function with 3 input(s) and 1 output(s)",
+        "method": {
+          "go_module": "github.com/kuetix/std-auth",
+          "file_path": "modules/auth/transitions/bff.go",
+          "module_path": "modules",
+          "namespace": "auth",
+          "class": "bff",
+          "name": "CreateSession",
+          "receiver_type": "*bffTransitions",
+          "num_in": 3,
+          "num_out": 1,
+          "arg_types": [
+            "interface{}",
+            "interface{}",
+            "int"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "response",
+            "tokenResult",
+            "maxAgeSeconds"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
+      },
+      {
+        "value": "ResolveSession",
+        "label": "ResolveSession(authHeader string, cookieHeader string) (r domain.FlowStepResult)",
+        "names": "ResolveSession(authHeader, cookieHeader) r",
+        "types": "ResolveSession(string, string) domain.FlowStepResult",
+        "description": "Function with 2 input(s) and 1 output(s)",
+        "method": {
+          "go_module": "github.com/kuetix/std-auth",
+          "file_path": "modules/auth/transitions/bff.go",
+          "module_path": "modules",
+          "namespace": "auth",
+          "class": "bff",
+          "name": "ResolveSession",
+          "receiver_type": "*bffTransitions",
+          "num_in": 2,
+          "num_out": 1,
+          "arg_types": [
+            "string",
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "authHeader",
+            "cookieHeader"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
+      },
+      {
+        "value": "VerifyCsrf",
+        "label": "VerifyCsrf(csrfHeader string, cookieHeader string) (r domain.FlowStepResult)",
+        "names": "VerifyCsrf(csrfHeader, cookieHeader) r",
+        "types": "VerifyCsrf(string, string) domain.FlowStepResult",
+        "description": "Function with 2 input(s) and 1 output(s)",
+        "method": {
+          "go_module": "github.com/kuetix/std-auth",
+          "file_path": "modules/auth/transitions/bff.go",
+          "module_path": "modules",
+          "namespace": "auth",
+          "class": "bff",
+          "name": "VerifyCsrf",
+          "receiver_type": "*bffTransitions",
+          "num_in": 2,
+          "num_out": 1,
+          "arg_types": [
+            "string",
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "csrfHeader",
+            "cookieHeader"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
+      },
+      {
+        "value": "ClearSession",
+        "label": "ClearSession(response interface{}, cookieHeader string) (r domain.FlowStepResult)",
+        "names": "ClearSession(response, cookieHeader) r",
+        "types": "ClearSession(interface{}, string) domain.FlowStepResult",
+        "description": "Function with 2 input(s) and 1 output(s)",
+        "method": {
+          "go_module": "github.com/kuetix/std-auth",
+          "file_path": "modules/auth/transitions/bff.go",
+          "module_path": "modules",
+          "namespace": "auth",
+          "class": "bff",
+          "name": "ClearSession",
+          "receiver_type": "*bffTransitions",
+          "num_in": 2,
+          "num_out": 1,
+          "arg_types": [
+            "interface{}",
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "response",
+            "cookieHeader"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
+      },
+      {
+        "value": "ResolveSession",
+        "label": "ResolveSession(authHeader string, cookieHeader string) (r domain.FlowStepResult)",
+        "names": "ResolveSession(authHeader, cookieHeader) r",
+        "types": "ResolveSession(string, string) domain.FlowStepResult",
+        "description": "Function with 2 input(s) and 1 output(s)",
+        "method": {
+          "go_module": "github.com/kuetix/std-auth",
+          "file_path": "modules/auth/transitions/bff.go",
+          "module_path": "modules",
+          "namespace": "auth",
+          "class": "bff",
+          "name": "ResolveSession",
+          "receiver_type": "*bffTransitions",
+          "num_in": 2,
+          "num_out": 1,
+          "arg_types": [
+            "string",
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "authHeader",
+            "cookieHeader"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
+      },
+      {
+        "value": "VerifyCsrf",
+        "label": "VerifyCsrf(csrfHeader string, cookieHeader string) (r domain.FlowStepResult)",
+        "names": "VerifyCsrf(csrfHeader, cookieHeader) r",
+        "types": "VerifyCsrf(string, string) domain.FlowStepResult",
+        "description": "Function with 2 input(s) and 1 output(s)",
+        "method": {
+          "go_module": "github.com/kuetix/std-auth",
+          "file_path": "modules/auth/transitions/bff.go",
+          "module_path": "modules",
+          "namespace": "auth",
+          "class": "bff",
+          "name": "VerifyCsrf",
+          "receiver_type": "*bffTransitions",
+          "num_in": 2,
+          "num_out": 1,
+          "arg_types": [
+            "string",
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "csrfHeader",
+            "cookieHeader"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
+      }
+    ]
+  },
   "auth/jwt": {
     "info": {
       "go_module": "github.com/kuetix/std-auth",
@@ -318,6 +589,273 @@
           ],
           "arg_names": [
             "tokenString"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
+      }
+    ]
+  },
+  "auth/mfa": {
+    "info": {
+      "go_module": "github.com/kuetix/std-auth",
+      "namespace": "auth",
+      "class": "mfa",
+      "label": "Mfa Module",
+      "description": "Handles mfa operations for auth service"
+    },
+    "methods": [
+      {
+        "value": "IsEnabled",
+        "label": "IsEnabled(mfaFlag interface{}) (r domain.FlowStepResult)",
+        "names": "IsEnabled(mfaFlag) r",
+        "types": "IsEnabled(interface{}) domain.FlowStepResult",
+        "description": "Function with 1 input(s) and 1 output(s)",
+        "method": {
+          "go_module": "github.com/kuetix/std-auth",
+          "file_path": "modules/auth/transitions/mfa.go",
+          "module_path": "modules",
+          "namespace": "auth",
+          "class": "mfa",
+          "name": "IsEnabled",
+          "receiver_type": "*mfaTransitions",
+          "num_in": 1,
+          "num_out": 1,
+          "arg_types": [
+            "interface{}"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "mfaFlag"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
+      },
+      {
+        "value": "IssueChallenge",
+        "label": "IssueChallenge(mfaUserID string, mfaUsername string, mfaEmail string, mfaTTLSeconds int) (r domain.FlowStepResult)",
+        "names": "IssueChallenge(mfaUserID, mfaUsername, mfaEmail, mfaTTLSeconds) r",
+        "types": "IssueChallenge(string, string, string, int) domain.FlowStepResult",
+        "description": "Function with 4 input(s) and 1 output(s)",
+        "method": {
+          "go_module": "github.com/kuetix/std-auth",
+          "file_path": "modules/auth/transitions/mfa.go",
+          "module_path": "modules",
+          "namespace": "auth",
+          "class": "mfa",
+          "name": "IssueChallenge",
+          "receiver_type": "*mfaTransitions",
+          "num_in": 4,
+          "num_out": 1,
+          "arg_types": [
+            "string",
+            "string",
+            "string",
+            "int"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "mfaUserID",
+            "mfaUsername",
+            "mfaEmail",
+            "mfaTTLSeconds"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
+      },
+      {
+        "value": "IsEnabled",
+        "label": "IsEnabled(mfaFlag interface{}) (r domain.FlowStepResult)",
+        "names": "IsEnabled(mfaFlag) r",
+        "types": "IsEnabled(interface{}) domain.FlowStepResult",
+        "description": "Function with 1 input(s) and 1 output(s)",
+        "method": {
+          "go_module": "github.com/kuetix/std-auth",
+          "file_path": "modules/auth/transitions/mfa.go",
+          "module_path": "modules",
+          "namespace": "auth",
+          "class": "mfa",
+          "name": "IsEnabled",
+          "receiver_type": "*mfaTransitions",
+          "num_in": 1,
+          "num_out": 1,
+          "arg_types": [
+            "interface{}"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "mfaFlag"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
+      },
+      {
+        "value": "IssueChallenge",
+        "label": "IssueChallenge(mfaUserID string, mfaUsername string, mfaEmail string, mfaTTLSeconds int) (r domain.FlowStepResult)",
+        "names": "IssueChallenge(mfaUserID, mfaUsername, mfaEmail, mfaTTLSeconds) r",
+        "types": "IssueChallenge(string, string, string, int) domain.FlowStepResult",
+        "description": "Function with 4 input(s) and 1 output(s)",
+        "method": {
+          "go_module": "github.com/kuetix/std-auth",
+          "file_path": "modules/auth/transitions/mfa.go",
+          "module_path": "modules",
+          "namespace": "auth",
+          "class": "mfa",
+          "name": "IssueChallenge",
+          "receiver_type": "*mfaTransitions",
+          "num_in": 4,
+          "num_out": 1,
+          "arg_types": [
+            "string",
+            "string",
+            "string",
+            "int"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "mfaUserID",
+            "mfaUsername",
+            "mfaEmail",
+            "mfaTTLSeconds"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
+      },
+      {
+        "value": "VerifyChallenge",
+        "label": "VerifyChallenge(mfaChallengeId string, mfaCode string) (r domain.FlowStepResult)",
+        "names": "VerifyChallenge(mfaChallengeId, mfaCode) r",
+        "types": "VerifyChallenge(string, string) domain.FlowStepResult",
+        "description": "Function with 2 input(s) and 1 output(s)",
+        "method": {
+          "go_module": "github.com/kuetix/std-auth",
+          "file_path": "modules/auth/transitions/mfa.go",
+          "module_path": "modules",
+          "namespace": "auth",
+          "class": "mfa",
+          "name": "VerifyChallenge",
+          "receiver_type": "*mfaTransitions",
+          "num_in": 2,
+          "num_out": 1,
+          "arg_types": [
+            "string",
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "mfaChallengeId",
+            "mfaCode"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
+      },
+      {
+        "value": "ResendChallenge",
+        "label": "ResendChallenge(mfaChallengeId string) (r domain.FlowStepResult)",
+        "names": "ResendChallenge(mfaChallengeId) r",
+        "types": "ResendChallenge(string) domain.FlowStepResult",
+        "description": "Function with 1 input(s) and 1 output(s)",
+        "method": {
+          "go_module": "github.com/kuetix/std-auth",
+          "file_path": "modules/auth/transitions/mfa.go",
+          "module_path": "modules",
+          "namespace": "auth",
+          "class": "mfa",
+          "name": "ResendChallenge",
+          "receiver_type": "*mfaTransitions",
+          "num_in": 1,
+          "num_out": 1,
+          "arg_types": [
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "mfaChallengeId"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
+      },
+      {
+        "value": "ResendChallenge",
+        "label": "ResendChallenge(mfaChallengeId string) (r domain.FlowStepResult)",
+        "names": "ResendChallenge(mfaChallengeId) r",
+        "types": "ResendChallenge(string) domain.FlowStepResult",
+        "description": "Function with 1 input(s) and 1 output(s)",
+        "method": {
+          "go_module": "github.com/kuetix/std-auth",
+          "file_path": "modules/auth/transitions/mfa.go",
+          "module_path": "modules",
+          "namespace": "auth",
+          "class": "mfa",
+          "name": "ResendChallenge",
+          "receiver_type": "*mfaTransitions",
+          "num_in": 1,
+          "num_out": 1,
+          "arg_types": [
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "mfaChallengeId"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
+      },
+      {
+        "value": "VerifyChallenge",
+        "label": "VerifyChallenge(mfaChallengeId string, mfaCode string) (r domain.FlowStepResult)",
+        "names": "VerifyChallenge(mfaChallengeId, mfaCode) r",
+        "types": "VerifyChallenge(string, string) domain.FlowStepResult",
+        "description": "Function with 2 input(s) and 1 output(s)",
+        "method": {
+          "go_module": "github.com/kuetix/std-auth",
+          "file_path": "modules/auth/transitions/mfa.go",
+          "module_path": "modules",
+          "namespace": "auth",
+          "class": "mfa",
+          "name": "VerifyChallenge",
+          "receiver_type": "*mfaTransitions",
+          "num_in": 2,
+          "num_out": 1,
+          "arg_types": [
+            "string",
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "mfaChallengeId",
+            "mfaCode"
           ],
           "return_names": [
             "r"
