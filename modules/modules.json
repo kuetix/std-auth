@@ -10,10 +10,10 @@
     "methods": [
       {
         "value": "ClearSession",
-        "label": "ClearSession(response interface{}, cookieHeader string) (r domain.FlowStepResult)",
-        "names": "ClearSession(response, cookieHeader) r",
-        "types": "ClearSession(interface{}, string) domain.FlowStepResult",
-        "description": "Function with 2 input(s) and 1 output(s)",
+        "label": "ClearSession(response interface{}, cookieHeader string, authHeader string) (r domain.FlowStepResult)",
+        "names": "ClearSession(response, cookieHeader, authHeader) r",
+        "types": "ClearSession(interface{}, string, string) domain.FlowStepResult",
+        "description": "Function with 3 input(s) and 1 output(s)",
         "method": {
           "go_module": "github.com/kuetix/std-auth",
           "file_path": "modules/auth/transitions/bff.go",
@@ -22,10 +22,11 @@
           "class": "bff",
           "name": "ClearSession",
           "receiver_type": "*bffTransitions",
-          "num_in": 2,
+          "num_in": 3,
           "num_out": 1,
           "arg_types": [
             "interface{}",
+            "string",
             "string"
           ],
           "return_types": [
@@ -33,7 +34,8 @@
           ],
           "arg_names": [
             "response",
-            "cookieHeader"
+            "cookieHeader",
+            "authHeader"
           ],
           "return_names": [
             "r"
@@ -42,10 +44,10 @@
       },
       {
         "value": "CreateSession",
-        "label": "CreateSession(response interface{}, tokenResult interface{}, maxAgeSeconds int) (r domain.FlowStepResult)",
-        "names": "CreateSession(response, tokenResult, maxAgeSeconds) r",
-        "types": "CreateSession(interface{}, interface{}, int) domain.FlowStepResult",
-        "description": "Function with 3 input(s) and 1 output(s)",
+        "label": "CreateSession(response interface{}, tokenResult interface{}, maxAgeSeconds int, clientIP string, userAgent string) (r domain.FlowStepResult)",
+        "names": "CreateSession(response, tokenResult, maxAgeSeconds, clientIP, userAgent) r",
+        "types": "CreateSession(interface{}, interface{}, int, string, string) domain.FlowStepResult",
+        "description": "Function with 5 input(s) and 1 output(s)",
         "method": {
           "go_module": "github.com/kuetix/std-auth",
           "file_path": "modules/auth/transitions/bff.go",
@@ -54,12 +56,14 @@
           "class": "bff",
           "name": "CreateSession",
           "receiver_type": "*bffTransitions",
-          "num_in": 3,
+          "num_in": 5,
           "num_out": 1,
           "arg_types": [
             "interface{}",
             "interface{}",
-            "int"
+            "int",
+            "string",
+            "string"
           ],
           "return_types": [
             "domain.FlowStepResult"
@@ -67,7 +71,9 @@
           "arg_names": [
             "response",
             "tokenResult",
-            "maxAgeSeconds"
+            "maxAgeSeconds",
+            "clientIP",
+            "userAgent"
           ],
           "return_names": [
             "r"
@@ -76,10 +82,10 @@
       },
       {
         "value": "CreateSession",
-        "label": "CreateSession(response interface{}, tokenResult interface{}, maxAgeSeconds int) (r domain.FlowStepResult)",
-        "names": "CreateSession(response, tokenResult, maxAgeSeconds) r",
-        "types": "CreateSession(interface{}, interface{}, int) domain.FlowStepResult",
-        "description": "Function with 3 input(s) and 1 output(s)",
+        "label": "CreateSession(response interface{}, tokenResult interface{}, maxAgeSeconds int, clientIP string, userAgent string) (r domain.FlowStepResult)",
+        "names": "CreateSession(response, tokenResult, maxAgeSeconds, clientIP, userAgent) r",
+        "types": "CreateSession(interface{}, interface{}, int, string, string) domain.FlowStepResult",
+        "description": "Function with 5 input(s) and 1 output(s)",
         "method": {
           "go_module": "github.com/kuetix/std-auth",
           "file_path": "modules/auth/transitions/bff.go",
@@ -88,12 +94,14 @@
           "class": "bff",
           "name": "CreateSession",
           "receiver_type": "*bffTransitions",
-          "num_in": 3,
+          "num_in": 5,
           "num_out": 1,
           "arg_types": [
             "interface{}",
             "interface{}",
-            "int"
+            "int",
+            "string",
+            "string"
           ],
           "return_types": [
             "domain.FlowStepResult"
@@ -101,7 +109,9 @@
           "arg_names": [
             "response",
             "tokenResult",
-            "maxAgeSeconds"
+            "maxAgeSeconds",
+            "clientIP",
+            "userAgent"
           ],
           "return_names": [
             "r"
@@ -174,10 +184,10 @@
       },
       {
         "value": "ClearSession",
-        "label": "ClearSession(response interface{}, cookieHeader string) (r domain.FlowStepResult)",
-        "names": "ClearSession(response, cookieHeader) r",
-        "types": "ClearSession(interface{}, string) domain.FlowStepResult",
-        "description": "Function with 2 input(s) and 1 output(s)",
+        "label": "ClearSession(response interface{}, cookieHeader string, authHeader string) (r domain.FlowStepResult)",
+        "names": "ClearSession(response, cookieHeader, authHeader) r",
+        "types": "ClearSession(interface{}, string, string) domain.FlowStepResult",
+        "description": "Function with 3 input(s) and 1 output(s)",
         "method": {
           "go_module": "github.com/kuetix/std-auth",
           "file_path": "modules/auth/transitions/bff.go",
@@ -186,10 +196,11 @@
           "class": "bff",
           "name": "ClearSession",
           "receiver_type": "*bffTransitions",
-          "num_in": 2,
+          "num_in": 3,
           "num_out": 1,
           "arg_types": [
             "interface{}",
+            "string",
             "string"
           ],
           "return_types": [
@@ -197,7 +208,8 @@
           ],
           "arg_names": [
             "response",
-            "cookieHeader"
+            "cookieHeader",
+            "authHeader"
           ],
           "return_names": [
             "r"

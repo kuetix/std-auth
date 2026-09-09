@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/kuetix/engine/engine/domain"
@@ -45,6 +46,14 @@ import (
 // browser session issued before a project adopted this module, keeps
 // working unchanged.
 const bffSessionKeyPrefix = "bff:session:"
+
+// bffUserSessionsPrefix keys a per-user ZSET (member = session id, score =
+// last-seen unix seconds) so a user's active sessions can be listed and
+// revoked individually without a keyspace SCAN. CreateSession adds to it,
+// ClearSession and the session-management transitions remove from it, and
+// every read self-heals by dropping ids whose record has expired. See
+// zmist's zmist/session package + workflows/user/sessions*.wsl.
+const bffUserSessionsPrefix = "bff:user:sessions:"
 
 type bffTransitions struct {
 	workflow.BaseServiceTransition
@@ -109,6 +118,52 @@ type bffSessionRecord struct {
 	Token     string `json:"token"`
 	IssuedAt  string `json:"issuedAt"`
 	ExpiresAt string `json:"expiresAt"`
+	// Client metadata for the "your active sessions" list. Populated from
+	// the login request; all optional (a session created before this was
+	// added, or by a caller that passes "" , simply has blanks).
+	IP        string `json:"ip,omitempty"`
+	UserAgent string `json:"userAgent,omitempty"`
+	Platform  string `json:"platform,omitempty"` // "web" | "ios" | "android" | "api"
+}
+
+// derivePlatform is a coarse best-effort classification of a session's
+// origin from its User-Agent, for display in the session list only.
+func derivePlatform(userAgent string) string {
+	u := strings.ToLower(strings.TrimSpace(userAgent))
+	switch {
+	case u == "":
+		return "api"
+	case strings.Contains(u, "zmist-ios"), strings.Contains(u, "cfnetwork"), strings.Contains(u, "darwin"):
+		return "ios"
+	case strings.Contains(u, "zmist-android"), strings.Contains(u, "android"), strings.Contains(u, "okhttp"):
+		return "android"
+	case strings.Contains(u, "mozilla"), strings.Contains(u, "webkit"), strings.Contains(u, "gecko"):
+		return "web"
+	default:
+		return "api"
+	}
+}
+
+// firstForwardedIP takes the left-most address from an X-Forwarded-For
+// list (the original client; the rest are proxies).
+func firstForwardedIP(xff string) string {
+	if i := strings.IndexByte(xff, ','); i != -1 {
+		return strings.TrimSpace(xff[:i])
+	}
+	return strings.TrimSpace(xff)
+}
+
+// touchSession bumps a session's last-seen score in the per-user index so
+// the session list can show "last active". Best-effort - a failure here
+// must never break request auth.
+func (t *bffTransitions) touchSession(ctx context.Context, userID, sessionID string) {
+	if userID == "" || sessionID == "" {
+		return
+	}
+	t.db.ZAdd(ctx, bffUserSessionsPrefix+userID, redis.Z{
+		Score:  float64(time.Now().Unix()),
+		Member: sessionID,
+	})
 }
 
 func stringField(m map[string]interface{}, key string) string {
@@ -131,7 +186,7 @@ func stringField(m map[string]interface{}, key string) string {
 // resolve a dotted path like $token.token, only the whole $token alias,
 // and $http.response's binding as a raw interface value hasn't been
 // proven the same way plain data types have.
-func (t *bffTransitions) CreateSession(response interface{}, tokenResult interface{}, maxAgeSeconds int) (r domain.FlowStepResult) {
+func (t *bffTransitions) CreateSession(response interface{}, tokenResult interface{}, maxAgeSeconds int, clientIP string, userAgent string) (r domain.FlowStepResult) {
 	w, ok := response.(http.ResponseWriter)
 	if !ok {
 		r.Success = false
@@ -152,6 +207,7 @@ func (t *bffTransitions) CreateSession(response interface{}, tokenResult interfa
 		return
 	}
 
+	ip := firstForwardedIP(clientIP)
 	record := bffSessionRecord{
 		UserID:    stringField(tokenMap, "userId"),
 		Username:  stringField(tokenMap, "username"),
@@ -159,6 +215,9 @@ func (t *bffTransitions) CreateSession(response interface{}, tokenResult interfa
 		Token:     token,
 		IssuedAt:  time.Now().UTC().Format(time.RFC3339),
 		ExpiresAt: stringField(tokenMap, "expiresAt"),
+		IP:        ip,
+		UserAgent: strings.TrimSpace(userAgent),
+		Platform:  derivePlatform(userAgent),
 	}
 	payload, err := json.Marshal(record)
 	if err != nil {
@@ -185,6 +244,12 @@ func (t *bffTransitions) CreateSession(response interface{}, tokenResult interfa
 		r.Success = false
 		r.Error = fmt.Errorf("CreateSession: %w", err)
 		return
+	}
+	if record.UserID != "" {
+		idx := bffUserSessionsPrefix + record.UserID
+		t.db.ZAdd(ctx, idx, redis.Z{Score: float64(time.Now().Unix()), Member: sessionID})
+		// Keep the index from outliving the longest-lived session record.
+		t.db.Expire(ctx, idx, time.Duration(maxAgeSeconds)*time.Second)
 	}
 
 	http.SetCookie(w, &http.Cookie{
@@ -215,47 +280,27 @@ func (t *bffTransitions) CreateSession(response interface{}, tokenResult interfa
 		SameSite: http.SameSiteLaxMode,
 	})
 
+	// Return the whole token result PLUS sessionId, so a login workflow can
+	// respond with this alias directly: browsers ignore the body's
+	// sessionId (they use the cookie), a native client stores it and sends
+	// it as its Bearer token. Callers that only want the id still read
+	// r.Response["sessionId"].
+	out := make(map[string]interface{}, len(tokenMap)+1)
+	for k, v := range tokenMap {
+		out[k] = v
+	}
+	out["sessionId"] = sessionID
 	r.Success = true
 	r.StatusCode = http.StatusOK
-	r.Response = map[string]interface{}{"sessionId": sessionID}
+	r.Response = out
 	return
 }
 
-// ResolveSession is the read-side counterpart to CreateSession - see this
-// file's header comment for why it tries a Bearer Authorization header
-// first and only falls back to the opaque session cookie.
-func (t *bffTransitions) ResolveSession(authHeader, cookieHeader string) (r domain.FlowStepResult) {
-	if len(authHeader) > len(bearerPrefix) && authHeader[:len(bearerPrefix)] == bearerPrefix {
-		token := authHeader[len(bearerPrefix):]
-		if token != "" {
-			return validateJWT(token)
-		}
-	}
-
-	sessionID := readBFFCookie(cookieHeader, t.sessionCookieName)
-	if sessionID == "" {
-		r.Success = false
-		r.Error = fmt.Errorf("no session token in Authorization header or %s cookie", t.sessionCookieName)
-		return
-	}
-
-	ctx := context.Background()
-	raw, err := t.db.Get(ctx, bffSessionKeyPrefix+sessionID).Result()
-	if err != nil {
-		r.Success = false
-		r.Error = fmt.Errorf("session not found or expired")
-		return
-	}
-	var record bffSessionRecord
-	if err := json.Unmarshal([]byte(raw), &record); err != nil {
-		r.Success = false
-		r.Error = fmt.Errorf("ResolveSession: %w", err)
-		return
-	}
-
-	r.Success = true
-	r.StatusCode = http.StatusOK
-	r.Response = map[string]interface{}{
+// sessionResponse is the shared success shape - identical to what
+// validateJWT returns, plus "sessionId" so a caller (e.g. a session-list
+// endpoint) can tell which of the listed sessions is the current one.
+func sessionResponse(sessionID string, record bffSessionRecord) map[string]interface{} {
+	return map[string]interface{}{
 		"token": Token{
 			Raw:       record.Token,
 			UserID:    record.UserID,
@@ -269,7 +314,69 @@ func (t *bffTransitions) ResolveSession(authHeader, cookieHeader string) (r doma
 		"email":     record.Email,
 		"issuedAt":  record.IssuedAt,
 		"expiresAt": record.ExpiresAt,
+		"sessionId": sessionID,
 	}
+}
+
+// loadSessionRecord fetches and decodes bff:session:<sessionID>.
+func (t *bffTransitions) loadSessionRecord(ctx context.Context, sessionID string) (bffSessionRecord, bool) {
+	raw, err := t.db.Get(ctx, bffSessionKeyPrefix+sessionID).Result()
+	if err != nil {
+		return bffSessionRecord{}, false
+	}
+	var record bffSessionRecord
+	if err := json.Unmarshal([]byte(raw), &record); err != nil {
+		return bffSessionRecord{}, false
+	}
+	return record, true
+}
+
+// ResolveSession is the read-side counterpart to CreateSession. A Bearer
+// Authorization header is tried first: its value is looked up as an opaque
+// session id (a native client now stores the id CreateSession returns and
+// sends it as the Bearer token, so mobile sessions are revocable and show
+// up in the session list too), and only if that misses is it validated as
+// a raw JWT - keeping older mobile builds, and any pure-JWT integration,
+// working unchanged (those simply can't be revoked before their own
+// expiry). With no usable Authorization header it falls back to the opaque
+// session cookie.
+func (t *bffTransitions) ResolveSession(authHeader, cookieHeader string) (r domain.FlowStepResult) {
+	ctx := context.Background()
+
+	if len(authHeader) > len(bearerPrefix) && authHeader[:len(bearerPrefix)] == bearerPrefix {
+		token := authHeader[len(bearerPrefix):]
+		if token != "" {
+			if record, ok := t.loadSessionRecord(ctx, token); ok {
+				t.touchSession(ctx, record.UserID, token)
+				r.Success = true
+				r.StatusCode = http.StatusOK
+				r.Response = sessionResponse(token, record)
+				return
+			}
+			// Not a live session id - treat it as a raw JWT (legacy /
+			// non-browser). No sessionId in the response for this path.
+			return validateJWT(token)
+		}
+	}
+
+	sessionID := readBFFCookie(cookieHeader, t.sessionCookieName)
+	if sessionID == "" {
+		r.Success = false
+		r.Error = fmt.Errorf("no session token in Authorization header or %s cookie", t.sessionCookieName)
+		return
+	}
+
+	record, ok := t.loadSessionRecord(ctx, sessionID)
+	if !ok {
+		r.Success = false
+		r.Error = fmt.Errorf("session not found or expired")
+		return
+	}
+	t.touchSession(ctx, record.UserID, sessionID)
+
+	r.Success = true
+	r.StatusCode = http.StatusOK
+	r.Response = sessionResponse(sessionID, record)
 	return
 }
 
@@ -299,7 +406,7 @@ func (t *bffTransitions) VerifyCsrf(csrfHeader, cookieHeader string) (r domain.F
 // no matter what), the session actually stops working the instant this
 // runs, since ResolveSession's Redis lookup will simply find nothing
 // afterwards.
-func (t *bffTransitions) ClearSession(response interface{}, cookieHeader string) (r domain.FlowStepResult) {
+func (t *bffTransitions) ClearSession(response interface{}, cookieHeader string, authHeader string) (r domain.FlowStepResult) {
 	w, ok := response.(http.ResponseWriter)
 	if !ok {
 		r.Success = false
@@ -307,8 +414,15 @@ func (t *bffTransitions) ClearSession(response interface{}, cookieHeader string)
 		return
 	}
 
-	if sessionID := readBFFCookie(cookieHeader, t.sessionCookieName); sessionID != "" {
-		ctx := context.Background()
+	ctx := context.Background()
+	// The session id is in the cookie (browser) or is itself the Bearer
+	// value (a native client since it started sending the opaque id).
+	sessionID := readBFFCookie(cookieHeader, t.sessionCookieName)
+	if sessionID == "" && len(authHeader) > len(bearerPrefix) && authHeader[:len(bearerPrefix)] == bearerPrefix {
+		sessionID = authHeader[len(bearerPrefix):]
+	}
+	if sessionID != "" {
+		record, _ := t.loadSessionRecord(ctx, sessionID)
 		if err := t.db.Del(ctx, bffSessionKeyPrefix+sessionID).Err(); err != nil {
 			// Not fatal - the cookies still get cleared below, so the
 			// browser stops sending this session id either way; a
@@ -316,6 +430,9 @@ func (t *bffTransitions) ClearSession(response interface{}, cookieHeader string)
 			// Redis entry to expire on its own TTL instead of being
 			// removed immediately.
 			fmt.Printf("ClearSession: failed to delete session %s: %s\n", sessionID, err)
+		}
+		if record.UserID != "" {
+			t.db.ZRem(ctx, bffUserSessionsPrefix+record.UserID, sessionID)
 		}
 	}
 
