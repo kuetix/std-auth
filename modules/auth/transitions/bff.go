@@ -480,3 +480,19 @@ func randomBFFToken() (string, error) {
 	}
 	return hex.EncodeToString(buf), nil
 }
+
+// RequireCsrfOrBearer collapses the CheckAuthMethod -> VerifyCsrf two-state
+// branch that used to be hand-copied into every mutating, session-gated
+// workflow (see zmist's workflows/user/sessions_revoke.wsl for the original
+// shape). A request carrying a non-empty Authorization header is a native/
+// Bearer client, which never receives the CSRF cookie in the first place,
+// so there is nothing to double-submit-check; anything else falls through
+// to the exact same VerifyCsrf check a cookie-based browser session must
+// pass - this never duplicates that logic, only calls it.
+func (t *bffTransitions) RequireCsrfOrBearer(authHeader string, csrfHeader string, cookieHeader string) (r domain.FlowStepResult) {
+	if authHeader != "" {
+		r.Success = true
+		return
+	}
+	return t.VerifyCsrf(csrfHeader, cookieHeader)
+}

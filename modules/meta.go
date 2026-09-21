@@ -66,6 +66,20 @@ func init() {
 					ArgNames:    []string{"response", "cookieHeader", "authHeader"},
 					ReturnNames: []string{"r"},
 				},
+				"RequireCsrfOrBearer": {
+					GoModule:    "github.com/kuetix/std-auth",
+					ModulePath:  "modules",
+					FilePath:    "modules/auth/transitions/bff.go",
+					Namespace:   "bff",
+					Class:       "auth",
+					Name:        "RequireCsrfOrBearer",
+					NumIn:       3,
+					NumOut:      1,
+					ArgTypes:    []string{"string", "string", "string"},
+					ReturnTypes: []string{"domain.FlowStepResult"},
+					ArgNames:    []string{"authHeader", "csrfHeader", "cookieHeader"},
+					ReturnNames: []string{"r"},
+				},
 			},
 			"jwt": {
 				"GenerateToken": {

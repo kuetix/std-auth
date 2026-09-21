@@ -279,6 +279,40 @@
             "r"
           ]
         }
+      },
+      {
+        "value": "RequireCsrfOrBearer",
+        "label": "RequireCsrfOrBearer(authHeader string, csrfHeader string, cookieHeader string) (r domain.FlowStepResult)",
+        "names": "RequireCsrfOrBearer(authHeader, csrfHeader, cookieHeader) r",
+        "types": "RequireCsrfOrBearer(string, string, string) domain.FlowStepResult",
+        "description": "Function with 3 input(s) and 1 output(s)",
+        "method": {
+          "go_module": "github.com/kuetix/std-auth",
+          "file_path": "modules/auth/transitions/bff.go",
+          "module_path": "modules",
+          "namespace": "auth",
+          "class": "bff",
+          "name": "RequireCsrfOrBearer",
+          "receiver_type": "*bffTransitions",
+          "num_in": 3,
+          "num_out": 1,
+          "arg_types": [
+            "string",
+            "string",
+            "string"
+          ],
+          "return_types": [
+            "domain.FlowStepResult"
+          ],
+          "arg_names": [
+            "authHeader",
+            "csrfHeader",
+            "cookieHeader"
+          ],
+          "return_names": [
+            "r"
+          ]
+        }
       }
     ]
   },
